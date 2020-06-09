@@ -1,21 +1,29 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { AdminComponent } from './admin.component';
-import { OnlyAdminUsersGuard } from './admin-user-guard';
+import { AdminComponent } from "./admin.component";
+import { OnlyAdminUsersGuard } from "./admin-user-guard";
 
-const routes: Routes = [{
-  path: 'admin',
-  canActivate: [OnlyAdminUsersGuard],
-  children: [{
-    path: '',
-    component: AdminComponent,
-  }]
-}];
+const routes: Routes = [
+  {
+    path: "",
+    canActivate: [OnlyAdminUsersGuard],
+    children: [
+      {
+        path: "",
+        redirectTo: "/admin/dash",
+        pathMatch: "full",
+      },
+      {
+        path: "dash",
+        component: AdminComponent,
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
 export class AdminRoutingModule {}
