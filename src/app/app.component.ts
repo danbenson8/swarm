@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component } from "@angular/core";
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 
-import { merge, Observable } from 'rxjs';
+import { merge, Observable } from "rxjs";
 
-import { User } from './shared/interfaces';
-import { AuthService } from './shared/services';
+import { User } from "./shared/interfaces";
+import { AuthService } from "./shared/services";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
   user$: Observable<User | null> = merge(
@@ -30,42 +30,44 @@ export class AppComponent {
 
   registerSvgIcons() {
     [
-      'close',
-      'add',
-      'add-blue',
-      'airplane-front-view',
-      'air-station',
-      'balloon',
-      'boat',
-      'cargo-ship',
-      'car',
-      'catamaran',
-      'clone',
-      'convertible',
-      'delete',
-      'drone',
-      'fighter-plane',
-      'fire-truck',
-      'horseback-riding',
-      'motorcycle',
-      'railcar',
-      'railroad-train',
-      'rocket-boot',
-      'sailing-boat',
-      'segway',
-      'shuttle',
-      'space-shuttle',
-      'steam-engine',
-      'suv',
-      'tour-bus',
-      'tow-truck',
-      'transportation',
-      'trolleybus',
-      'water-transportation',
-    ].forEach(icon => {
+      "close",
+      "add",
+      "add-blue",
+      "airplane-front-view",
+      "air-station",
+      "balloon",
+      "boat",
+      "cargo-ship",
+      "car",
+      "catamaran",
+      "clone",
+      "convertible",
+      "delete",
+      "drone",
+      "fighter-plane",
+      "fire-truck",
+      "horseback-riding",
+      "motorcycle",
+      "railcar",
+      "railroad-train",
+      "rocket-boot",
+      "sailing-boat",
+      "segway",
+      "shuttle",
+      "space-shuttle",
+      "steam-engine",
+      "suv",
+      "tour-bus",
+      "tow-truck",
+      "transportation",
+      "trolleybus",
+      "water-transportation",
+    ].forEach((icon) => {
       this.matIconRegistry.addSvgIcon(
         icon,
-        this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${icon}.svg`)
+        this.domSanitizer.bypassSecurityTrustResourceUrl(
+          `assets/icons/${icon}.svg`
+        )
       );
     });
   }
