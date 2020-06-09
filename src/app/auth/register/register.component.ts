@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import {
   FormGroup,
   FormControl,
   Validators,
   ValidationErrors,
   AbstractControl,
-} from '@angular/forms';
+} from "@angular/forms";
 
-import { AuthService } from '@app/shared/services';
+import { AuthService } from "@app/shared/services";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['../auth.component.scss'],
+  selector: "app-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["../auth.component.scss"],
 })
 export class RegisterComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   passwordsMatchValidator(control: FormControl): ValidationErrors | null {
-    const password = control.root.get('password');
+    const password = control.root.get("password");
     return password && control.value !== password.value
       ? {
           passwordMatch: true,
@@ -28,26 +28,29 @@ export class RegisterComponent {
   }
 
   userForm = new FormGroup({
-    fullname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    repeatPassword: new FormControl('', [Validators.required, this.passwordsMatchValidator]),
+    fullname: new FormControl("", [Validators.required]),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl("", [Validators.required]),
+    repeatPassword: new FormControl("", [
+      Validators.required,
+      this.passwordsMatchValidator,
+    ]),
   });
 
   get fullname(): AbstractControl {
-    return this.userForm.get('fullname')!;
+    return this.userForm.get("fullname")!;
   }
 
   get email(): AbstractControl {
-    return this.userForm.get('email')!;
+    return this.userForm.get("email")!;
   }
 
   get password(): AbstractControl {
-    return this.userForm.get('password')!;
+    return this.userForm.get("password")!;
   }
 
   get repeatPassword(): AbstractControl {
-    return this.userForm.get('repeatPassword')!;
+    return this.userForm.get("repeatPassword")!;
   }
 
   register(): void {
@@ -55,10 +58,21 @@ export class RegisterComponent {
       return;
     }
 
-    const { fullname, email, password, repeatPassword } = this.userForm.getRawValue();
+    const {
+      fullname,
+      email,
+      password,
+      repeatPassword,
+    } = this.userForm.getRawValue();
 
-    this.authService.register(fullname, email, password, repeatPassword).subscribe(data => {
-      this.router.navigate(['']);
-    });
+    this.authService
+      .register(fullname, email, password, repeatPassword)
+      .subscribe((data) => {
+        this.router.navigate([""]);
+      });
+  }
+
+  login(): void {
+    this.router.navigate(["/auth/login"]);
   }
 }

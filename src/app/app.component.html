@@ -1,5 +1,8 @@
 <app-header [user]="user$ | async"></app-header>
 <div class="wrapper-app">
+  <video autoplay muted loop id="myVideo">
+    <source src="../../assets/videos/auth.mp4" type="video/mp4" />
+  </video>
   <router-outlet></router-outlet>
 </div>
 <footer></footer>
