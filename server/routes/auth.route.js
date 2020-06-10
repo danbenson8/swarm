@@ -12,6 +12,7 @@ router.post('/register', asyncHandler(register), login);
 router.post('/login', passport.authenticate('local', { session: false }), login);
 router.get('/me', passport.authenticate('jwt', { session: false }), login);
 
+// TODO successful registration don't just login
 
 async function register(req, res, next) {
   let user = await userCtrl.insert(req.body);

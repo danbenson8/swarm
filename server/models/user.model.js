@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
+const permissions = require('./permissions');
 
 const UserSchema = new mongoose.Schema({
-  fullname: {
+  forename: {
     type: String,
     required: true
+  },
+  surname: {
+    type: String,
+    required: true,
   },
   email: {
     type: String,
@@ -20,11 +25,12 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  roles: [{
+  socialClass: {
     type: String,
-  }]
+  }
 }, {
-  versionKey: false
+  versionKey: false,
+  useNestedStrict: false,
 });
 
 

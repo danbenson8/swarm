@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Observable, BehaviorSubject, EMPTY } from 'rxjs';
-import { tap, pluck } from 'rxjs/operators';
+import { Observable, BehaviorSubject, EMPTY } from "rxjs";
+import { tap, pluck } from "rxjs/operators";
 
-import { User } from '@app/shared/interfaces';
+import { User } from "@app/shared/interfaces";
 
-import { TokenStorage } from './token.storage';
+import { TokenStorage } from "./token.storage";
 
 interface AuthResponse {
   token: string;
   user: User;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private user$ = new BehaviorSubject<User | null>(null);
 
@@ -21,41 +21,45 @@ export class AuthService {
 
   login(email: string, password: string): Observable<User> {
     return this.http
-      .post<AuthResponse>('/api/auth/login', { email, password })
+      .post<AuthResponse>("/api/auth/login", { email, password })
       .pipe(
         tap(({ token, user }) => {
           this.setUser(user);
           this.tokenStorage.saveToken(token);
         }),
-        pluck('user')
+        pluck("user")
       );
   }
 
   register(
-    fullname: string,
+    forename: string,
+    surname: string,
     email: string,
     password: string,
-    repeatPassword: string
+    repeatPassword: string,
+    socialClass: string
   ): Observable<User> {
     return this.http
-      .post<AuthResponse>('/api/auth/register', {
-        fullname,
+      .post<AuthResponse>("/api/auth/register", {
+        forename,
+        surname,
         email,
         password,
         repeatPassword,
+        socialClass,
       })
       .pipe(
         tap(({ token, user }) => {
           this.setUser(user);
           this.tokenStorage.saveToken(token);
         }),
-        pluck('user')
+        pluck("user")
       );
   }
 
   setUser(user: User | null): void {
     if (user) {
-      user.isAdmin = user.roles.includes('admin');
+      user.isAdmin = user.roles.includes("admin");
     }
 
     this.user$.next(user);
@@ -73,9 +77,9 @@ export class AuthService {
       return EMPTY;
     }
 
-    return this.http.get<AuthResponse>('/api/auth/me').pipe(
+    return this.http.get<AuthResponse>("/api/auth/me").pipe(
       tap(({ user }) => this.setUser(user)),
-      pluck('user')
+      pluck("user")
     );
   }
 
@@ -86,7 +90,7 @@ export class AuthService {
   }
 
   getAuthorizationHeaders() {
-    const token: string | null = this.tokenStorage.getToken() || '';
+    const token: string | null = this.tokenStorage.getToken() || "";
     return { Authorization: `Bearer ${token}` };
   }
 

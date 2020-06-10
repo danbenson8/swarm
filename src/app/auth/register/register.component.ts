@@ -53,6 +53,8 @@ export class RegisterComponent {
     return this.userForm.get("repeatPassword")!;
   }
 
+  // TODO access token to allow account creation other than hatchling
+
   register(): void {
     if (this.userForm.invalid) {
       return;
@@ -65,8 +67,10 @@ export class RegisterComponent {
       repeatPassword,
     } = this.userForm.getRawValue();
 
+    const [forename, surname] = fullname.split(/ (.+)/);
+
     this.authService
-      .register(fullname, email, password, repeatPassword)
+      .register(forename, surname, email, password, repeatPassword, "hatchling")
       .subscribe((data) => {
         this.router.navigate([""]);
       });
