@@ -1,8 +1,8 @@
 <app-header [user]="user$ | async"></app-header>
 <div class="wrapper-app">
-  <video autoplay muted loop id="landing-video">
+  <router-outlet></router-outlet>
+  <video autoplay muted loop id="landing-video" *ngIf="getRoute() === 'auth'">
     <source src="../../assets/videos/landing.mp4" type="video/mp4" />
   </video>
-  <router-outlet></router-outlet>
 </div>
 <footer></footer>

@@ -6,6 +6,7 @@ import { merge, Observable } from "rxjs";
 
 import { User } from "./shared/interfaces";
 import { AuthService } from "./shared/services";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -23,9 +24,22 @@ export class AppComponent {
   constructor(
     private domSanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.registerSvgIcons();
+  }
+
+  getRoute(): String | null {
+    // TODO may need to improve this later, but for now will do...
+    switch (this.router.url) {
+      // fall through case
+      case "/auth/login":
+      case "/auth/register":
+        return "auth";
+      default:
+        return null;
+    }
   }
 
   registerSvgIcons() {

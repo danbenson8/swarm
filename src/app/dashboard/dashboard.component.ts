@@ -8,11 +8,5 @@ import { Component, OnInit } from "@angular/core";
 export class DashboardComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {
-    // pause video playback
-    let video = <HTMLMediaElement>document.getElementById("landing-video");
-    if (video) {
-      video.parentElement?.removeChild(video);
-    }
-  }
+  ngOnInit() {}
 }
