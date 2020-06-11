@@ -37,7 +37,7 @@ export class AuthService {
     email: string,
     password: string,
     repeatPassword: string,
-    socialClass: string
+    license: string
   ): Observable<User> {
     return this.http
       .post<AuthResponse>("/api/auth/register", {
@@ -46,7 +46,7 @@ export class AuthService {
         email,
         password,
         repeatPassword,
-        socialClass,
+        license,
       })
       .pipe(
         tap(({ token, user }) => {
@@ -59,7 +59,7 @@ export class AuthService {
 
   setUser(user: User | null): void {
     if (user) {
-      user.isAdmin = user.roles.includes("admin");
+      user.isAdmin = user.license.includes("admin");
     }
 
     this.user$.next(user);

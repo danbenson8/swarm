@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
-const permissions = require('./permissions');
+
+const LicenseSchema = Object.freeze({
+  Admin: 'admin',
+  Pro: 'pro',
+  Basic: 'basic',
+})
 
 const UserSchema = new mongoose.Schema({
   forename: {
@@ -25,13 +30,18 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  socialClass: {
+  license: {
     type: String,
+    enum: Object.values(LicenseSchema)
   }
 }, {
   versionKey: false,
   useNestedStrict: false,
 });
+
+Object.assign(UserSchema.statics, {
+  LicenseSchema
+})
 
 
 module.exports = mongoose.model('User', UserSchema);

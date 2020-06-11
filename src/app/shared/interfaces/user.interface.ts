@@ -1,7 +1,8 @@
 export interface User {
   _id: string;
-  fullname: string;
+  forename: string;
+  lastname: string;
   createdAt: string;
-  roles: string[];
+  license: string;
   isAdmin: boolean;
 }
