@@ -1,6 +1,6 @@
 <mat-card class="example-card">
   <mat-card-title>Register</mat-card-title>
-  <mat-card-content>
+  <mat-card-content *ngIf="!complete">
     <form class="example-form" [formGroup]="userForm">
       <mat-form-field>
         <input
@@ -50,6 +50,12 @@
         >
       </mat-form-field>
     </form>
+  </mat-card-content>
+  <mat-card-content *ngIf="complete">
+    <p>
+      Thank you for registering!<br />Please check your inbox, you will recieve
+      a confirmation email shortly.
+    </p>
   </mat-card-content>
   <mat-card-actions class="login-actions">
     <button mat-raised-button (click)="login()" color="primary">

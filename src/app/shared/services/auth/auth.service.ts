@@ -16,6 +16,7 @@ interface AuthResponse {
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private user$ = new BehaviorSubject<User | null>(null);
+  private autoLogin = false;
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorage) {}
 
@@ -50,8 +51,10 @@ export class AuthService {
       })
       .pipe(
         tap(({ token, user }) => {
-          this.setUser(user);
-          this.tokenStorage.saveToken(token);
+          if (this.autoLogin) {
+            this.setUser(user);
+            this.tokenStorage.saveToken(token);
+          }
         }),
         pluck("user")
       );

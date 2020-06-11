@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Output } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   FormGroup,
@@ -16,6 +16,8 @@ import { AuthService } from "@app/shared/services";
   styleUrls: ["../auth.component.scss"],
 })
 export class RegisterComponent {
+  public complete = false;
+
   constructor(private router: Router, private authService: AuthService) {}
 
   passwordsMatchValidator(control: FormControl): ValidationErrors | null {
@@ -70,9 +72,9 @@ export class RegisterComponent {
     const [forename, surname] = fullname.split(/ (.+)/);
 
     this.authService
-      .register(forename, surname, email, password, repeatPassword, "hatchling")
+      .register(forename, surname, email, password, repeatPassword, "basic")
       .subscribe((data) => {
-        this.router.navigate([""]);
+        this.complete = true;
       });
   }
 

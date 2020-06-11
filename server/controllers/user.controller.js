@@ -22,3 +22,5 @@ async function insert(user) {
   delete user.password;
   return await new User(user).save();
 }
+
+// TODO confirmation email w/ nodemailer
