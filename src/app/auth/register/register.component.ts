@@ -69,8 +69,6 @@ export class RegisterComponent {
 
     const [forename, surname] = fullname.split(/ (.+)/);
 
-    // TODO include access token for non-basic account generation
-
     this.authService
       .register(forename, surname, email, password, repeatPassword)
       .subscribe((data) => {

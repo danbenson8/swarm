@@ -1,6 +1,16 @@
 <mat-card class="dashboard-card">
   <mat-card-title class="dashboard-title">Menu</mat-card-title>
   <mat-card-content>
+    <mat-expansion-panel class="navigation-section" *ngIf="user?.isAdmin">
+      <mat-expansion-panel-header>
+        Admin
+      </mat-expansion-panel-header>
+      <div class="panel-content">
+        <button mat-button routerLink="/dashboard/admin/user/all">
+          Users
+        </button>
+      </div>
+    </mat-expansion-panel>
     <mat-expansion-panel class="navigation-section">
       <mat-expansion-panel-header>
         Manage

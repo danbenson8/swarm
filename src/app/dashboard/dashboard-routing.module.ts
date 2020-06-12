@@ -4,21 +4,33 @@ import { AuthGuard } from "@app/shared/guards";
 import { AccountManagerComponent } from "./manage/account-manager/account-manager.component";
 import { SessionManagerComponent } from "./manage/session-manager/session-manager.component";
 import { GroupManagerComponent } from "./manage/group-manager/group-manager.component";
+import { UserAdministrationComponent } from "./admin/user-administration/user-administration.component";
+import { OnlyAdminUsersGuard } from "./admin/admin-user-guard";
 
 const routes: Routes = [
   {
     path: "",
     component: DashboardComponent,
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
+        path: "",
+        redirectTo: "admin/user/all",
+        pathMatch: "full",
+      },
+      {
         path: "manage",
-        // canActivateChild: [AuthGuard],
         children: [
           { path: "account", component: AccountManagerComponent },
           { path: "groups", component: GroupManagerComponent },
           { path: "session/all", component: SessionManagerComponent },
+        ],
+      },
+      {
+        path: "admin",
+        canActivate: [OnlyAdminUsersGuard],
+        children: [
+          { path: "user/all", component: UserAdministrationComponent },
         ],
       },
     ],

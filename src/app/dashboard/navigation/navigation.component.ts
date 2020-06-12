@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
+import { User } from "@app/shared/interfaces";
 
 @Component({
   selector: "app-navigation",
@@ -6,6 +7,8 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./navigation.component.scss", "../dashboard.component.scss"],
 })
 export class NavigationComponent implements OnInit {
+  @Input() user: User | null = window.user;
+
   constructor() {}
 
   ngOnInit() {}

@@ -31,7 +31,6 @@ export class AppComponent {
   }
 
   getRoute(): String | null {
-    // TODO may need to improve this later, but for now will do...
     switch (this.router.url) {
       // fall through case
       case "/auth/login":
