@@ -1,0 +1,27 @@
+.wrapper-dashboard {
+  display: flex;
+}
+
+.wrapper-dashboard-navigation {
+  width: 20%;
+  min-width: 200px;
+  max-width: 300px;
+  margin-right: 1.02%;
+}
+
+.wrapper-dashboard-action {
+  flex-grow: 1;
+}
+
+.dashboard-card {
+  display: block;
+  position: relative;
+  // TODOtop fixed due to header at the moment
+  background: transparent;
+  box-shadow: 0px 0px 10px 2px rgba(1, 1, 0, 0.4);
+  padding: 0.8em;
+}
+
+.dashboard-title {
+  color: rgba(250, 250, 240, 0.75);
+}

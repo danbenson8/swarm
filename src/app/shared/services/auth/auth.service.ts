@@ -38,7 +38,7 @@ export class AuthService {
     email: string,
     password: string,
     repeatPassword: string,
-    license: string
+    license?: string
   ): Observable<User> {
     return this.http
       .post<AuthResponse>("/api/auth/register", {
@@ -47,7 +47,6 @@ export class AuthService {
         email,
         password,
         repeatPassword,
-        license,
       })
       .pipe(
         tap(({ token, user }) => {

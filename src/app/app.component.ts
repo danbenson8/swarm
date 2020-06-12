@@ -37,6 +37,8 @@ export class AppComponent {
       case "/auth/login":
       case "/auth/register":
         return "auth";
+      case "/landing":
+        return "landing";
       default:
         return null;
     }

@@ -10,3 +10,5 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {}
 }
+
+// TODO access token to upgrade account creation other than basic -> moved from register

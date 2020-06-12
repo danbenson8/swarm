@@ -2,13 +2,17 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { AuthGuard } from "./shared/guards";
-import { HomeComponent } from "./home/home.component";
+import { LandingComponent } from "./landing/landing.component";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/auth",
+    redirectTo: "/landing",
     pathMatch: "full",
+  },
+  {
+    path: "landing",
+    component: LandingComponent,
   },
   {
     path: "dashboard",

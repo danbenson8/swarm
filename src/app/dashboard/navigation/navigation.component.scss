@@ -1,0 +1,13 @@
+.navigation-section {
+  background: rgba(250, 250, 240, 0.95);
+  padding: 0;
+  .panel-content button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding-left: 0.8em;
+  }
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+}
