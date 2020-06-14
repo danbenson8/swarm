@@ -1,0 +1,142 @@
+.manage-card {
+  background: rgba(250, 250, 240, 0.95);
+  margin: 0.5em !important;
+}
+
+.manage-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.large-button {
+  height: 120px;
+  width: 120px;
+  margin: 10px;
+}
+//----------------------
+//    Lock Styling
+//----------------------
+
+* {
+  --locked-color: #ff5153;
+  --unlocked-color: #5fbf5f;
+}
+
+.account-card {
+  width: 30%;
+}
+
+.account-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.account-form {
+  display: flex;
+}
+
+.account-form-divider {
+  margin-bottom: 1.5em;
+}
+
+.account-form-action,
+.account-form-reset {
+  justify-self: center;
+  flex-grow: 1;
+  button {
+    width: 100%;
+  }
+}
+
+.account-form-action {
+  align-self: flex-end;
+  width: 80%;
+}
+
+.account-form-reset {
+  margin-right: 0.8em;
+  align-self: center;
+  width: 20%;
+}
+
+.container {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+  margin-left: 1em;
+}
+
+.lock {
+  width: 24px;
+  height: 21px;
+  border: 3px solid var(--locked-color);
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:after {
+  content: "";
+  display: block;
+  background: var(--locked-color);
+  width: 3px;
+  height: 7px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -3.5px 0 0 -2px;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  bottom: 100%;
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  border: 3px solid var(--locked-color);
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom: 0;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+/* Locked Hover */
+.lock:hover:before {
+  height: 12px;
+}
+/* Unlocked */
+.unlocked {
+  transform: rotate(10deg);
+}
+.unlocked:before {
+  bottom: 130%;
+  left: 31%;
+  margin-left: -11.5px;
+  transform: rotate(-45deg);
+}
+.unlocked,
+.unlocked:before {
+  border-color: var(--unlocked-color);
+}
+.unlocked:after {
+  background: var(--unlocked-color);
+}
+/* Unlocked Hover */
+.unlocked:hover {
+  transform: rotate(3deg);
+}
+.unlocked:hover:before {
+  height: 10px;
+  left: 40%;
+  bottom: 124%;
+  transform: rotate(-30deg);
+}

@@ -3,6 +3,169 @@
     >Account Management</mat-card-title
   >
   <mat-card-content>
-    Here you can manage your account
+    <mat-card class="manage-card account-card">
+      <div class="account-form-container">
+        <div class="account-form">
+          <form class="manage-form" [formGroup]="accountForm">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input
+                matInput
+                [placeholder]="user.forename"
+                formControlName="forename"
+                name="forename"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input
+                matInput
+                [placeholder]="user.surname"
+                formControlName="surname"
+                name="surname"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Upgrade Token</mat-label>
+              <input
+                matInput
+                placeholder="E.g. 1234-abc-5z"
+                formControlName="upgradeToken"
+                name="upgradeToken"
+              />
+            </mat-form-field>
+          </form>
+          <div class="container" (click)="toggleLock('general')">
+            <span
+              class="lock"
+              [ngClass]="generalLock ? 'lock' : 'unlocked'"
+            ></span>
+          </div>
+        </div>
+        <div class="account-form-divider">
+          <mat-divider></mat-divider>
+        </div>
+        <div class="account-form">
+          <form class="manage-form" [formGroup]="newEmailForm">
+            <mat-form-field>
+              <mat-label>New Email</mat-label>
+              <input
+                matInput
+                placeholder="New Email"
+                formControlName="email"
+                name="email"
+              />
+              <mat-error *ngIf="email.invalid && email.hasError('email')"
+                >Invalid email address</mat-error
+              >
+            </mat-form-field>
+          </form>
+          <div class="container" (click)="toggleLock('email')">
+            <span
+              class="lock"
+              [ngClass]="emailLock ? 'lock' : 'unlocked'"
+            ></span>
+          </div>
+        </div>
+        <div class="account-form-divider">
+          <mat-divider></mat-divider>
+        </div>
+        <div class="account-form">
+          <form class="manage-form" [formGroup]="newPasswordForm">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="New Password"
+                formControlName="new"
+                name="new"
+                type="password"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Repeat Password"
+                formControlName="repeat"
+                name="repeat"
+                type="password"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  repeatPassword.invalid &&
+                  repeatPassword.hasError('passwordMatch')
+                "
+                >Password mismatch</mat-error
+              >
+            </mat-form-field>
+          </form>
+          <div class="container" (click)="toggleLock('password')">
+            <span
+              class="lock"
+              [ngClass]="passwordLock ? 'lock' : 'unlocked'"
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div class="account-form-divider">
+        <mat-divider></mat-divider>
+      </div>
+      <div class="account-form">
+        <div class="account-form-reset">
+          <button mat-raised-button color="warn" (click)="resetForms()">
+            Reset
+          </button>
+        </div>
+        <div class="account-form-action">
+          <p
+            *ngIf="
+              this.accountForm.pristine &&
+              this.newPasswordForm.pristine &&
+              this.newEmailForm.pristine
+            "
+          >
+            You must make changes before submitting!
+          </p>
+          <p
+            *ngIf="
+              (!this.accountForm.pristine ||
+                !this.newPasswordForm.pristine ||
+                !this.newEmailForm.pristine) &&
+              !confirmChanges
+            "
+          >
+            You must lock your changes before submitting!
+          </p>
+          <p
+            *ngIf="
+              (!this.accountForm.pristine ||
+                !this.newPassword.pristine ||
+                !this.newEmailForm.pristine) &&
+              confirmChanges &&
+              invalidForm
+            "
+          >
+            Invalid details!
+          </p>
+          <button
+            mat-raised-button
+            color="primary"
+            class="submit-button"
+            *ngIf="
+              (!this.accountForm.pristine ||
+                !this.newPassword.pristine ||
+                !this.newEmailForm.pristine) &&
+              confirmChanges &&
+              !invalidForm
+            "
+            [disabled]="!confirmChanges || invalidForm"
+            (click)="updateDetails()"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </mat-card>
   </mat-card-content>
 </mat-card>

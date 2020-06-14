@@ -1,8 +1,65 @@
 <mat-card class="mat-card dashboard-card">
-  <mat-card-title class="mat-card-title dashboard-title"
-    >Group Management</mat-card-title
-  >
+  <mat-card-title class="mat-card-title dashboard-title">
+    Group Management
+  </mat-card-title>
   <mat-card-content>
-    Here you can manage your groups
+    <mat-card class="mat-card manage-card">
+      <mat-card-title class="mat-card-title manage-title">
+        My Groups
+      </mat-card-title>
+      <mat-card-content>
+        <button
+          mat-raised-button
+          *ngFor="let group of user.groups"
+          (click)="getMembers(group)"
+          class="large-button"
+          color="primary"
+        >
+          {{ group }}
+        </button>
+        <mat-paginator
+          *ngIf="user.groups.length > 10"
+          [length]="user.groups.length"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+        >
+        </mat-paginator>
+      </mat-card-content>
+      <mat-action-row>
+        <button mat-raised-button>
+          New group
+        </button>
+      </mat-action-row>
+    </mat-card>
+    <mat-card class="mat-card manage-card" *ngIf="group.current">
+      <mat-card-title class="mat-card-title manage-title">
+        {{ group.current | titlecase }}
+      </mat-card-title>
+      <mat-card-content>
+        <button
+          mat-raised-button
+          *ngFor="let user of group.members"
+          class="large-button"
+          color="primary"
+        >
+          {{ user.forename | titlecase }} {{ user.surname | titlecase }}
+        </button>
+        <mat-paginator
+          *ngIf="group.members.length > 10"
+          [length]="group.members.length"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+        >
+        </mat-paginator>
+      </mat-card-content>
+      <mat-action-row>
+        <button mat-raised-button>
+          Send invite
+        </button>
+        <button mat-raised-button color="warn">
+          Leave
+        </button>
+      </mat-action-row>
+    </mat-card>
   </mat-card-content>
 </mat-card>
