@@ -2,8 +2,17 @@
   <mat-card-title class="mat-card-title dashboard-title"
     >Account Management</mat-card-title
   >
-  <mat-card-content>
-    <mat-card class="manage-card account-card">
+  <mat-card-content class="manage-grid">
+    <mat-card class="manage-card account-card user-details-card">
+      <mat-card-title>
+        {{ user.forename | titlecase }}
+        {{ user.surname | titlecase }}
+      </mat-card-title>
+      <div>
+        {{ user.license | titlecase }}
+      </div>
+    </mat-card>
+    <mat-card class="manage-card account-card edit-details-card">
       <div class="account-form-container">
         <div class="account-form">
           <form class="manage-form" [formGroup]="accountForm">
@@ -159,13 +168,28 @@
               confirmChanges &&
               !invalidForm
             "
-            [disabled]="!confirmChanges || invalidForm"
+            [disabled]="!confirmChanges || invalidForm || submitted"
             (click)="updateDetails()"
           >
             Submit
           </button>
         </div>
       </div>
+    </mat-card>
+    <mat-card class="manage-card account-card statistics-card">
+      <mat-card-content>
+        <mat-tab-group class="stats-tabs">
+          <mat-tab label="Account Statistics">
+            <h1>Some stuff about the account</h1>
+          </mat-tab>
+          <mat-tab label="Group Statistics">
+            <h1>Some stuff about groups</h1>
+          </mat-tab>
+          <mat-tab label="Session Statistics">
+            <h1>Some stuff about session</h1>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
     </mat-card>
   </mat-card-content>
 </mat-card>

@@ -1,3 +1,7 @@
+// --------------------------------------------
+//     Shared
+// --------------------------------------------
+
 .manage-card {
   background: rgba(250, 250, 240, 0.95);
   margin: 0.5em !important;
@@ -9,22 +13,43 @@
   flex-grow: 1;
 }
 
+.manage-grid {
+  display: grid;
+  grid-template-columns: 30% auto;
+}
+
+// --------------------------------------------
+//     Group Manager
+// --------------------------------------------
+
 .large-button {
   height: 120px;
   width: 120px;
   margin: 10px;
 }
+
+// --------------------------------------------
+//     Account Manager
+// --------------------------------------------
+
 //----------------------
-//    Lock Styling
+//    User Details
 //----------------------
 
-* {
-  --locked-color: #ff5153;
-  --unlocked-color: #5fbf5f;
+.user-details-card {
+  grid-row: 1;
+  grid-column: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.account-card {
-  width: 30%;
+//----------------------
+//    Account Form
+//----------------------
+
+.edit-details-card {
+  grid-row: 2 / 3;
 }
 
 .account-form-container {
@@ -59,6 +84,15 @@
   margin-right: 0.8em;
   align-self: center;
   width: 20%;
+}
+
+//----------------------
+//    Lock Styling
+//----------------------
+
+* {
+  --locked-color: #ff5153;
+  --unlocked-color: #5fbf5f;
 }
 
 .container {
@@ -139,4 +173,13 @@
   left: 40%;
   bottom: 124%;
   transform: rotate(-30deg);
+}
+
+//----------------------
+//    Statistics
+//----------------------
+
+.statistics-card {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
 }

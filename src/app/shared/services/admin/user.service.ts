@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "@app/shared/interfaces";
-import { TokenStorage } from "../auth/token.storage";
 import { tap, pluck } from "rxjs/operators";
 
 interface GroupResponse {
@@ -14,7 +13,7 @@ interface GroupResponse {
 export class UserService {
   private group$ = new BehaviorSubject<User[] | null>(null);
 
-  constructor(private http: HttpClient, private tokenStorage: TokenStorage) {}
+  constructor(private http: HttpClient) {}
 
   // TODO have a group collection listing users per group
   // then:
@@ -34,9 +33,21 @@ export class UserService {
       );
   }
 
-  updateUser(_id: string): Observable<any> {
-    return this.http.post("/api/user/update", {
-      _id,
+  updateUser(
+    forename: string,
+    surname: string,
+    email: string,
+    upgradeToken: string,
+    newPW: string,
+    repeatPW: string
+  ): Observable<any> {
+    return this.http.post<User>(`/api/user/${window.user?._id}/update`, {
+      forename,
+      surname,
+      email,
+      newPW,
+      repeatPW,
+      upgradeToken,
     });
   }
 }

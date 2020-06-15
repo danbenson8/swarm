@@ -6,8 +6,8 @@ import {
   ValidationErrors,
   AbstractControl,
 } from "@angular/forms";
-import { AuthService } from "@app/shared/services";
 import { User } from "@app/shared/interfaces";
+import { UserService } from "@app/shared/services/admin/user.service";
 
 @Component({
   selector: "app-account-manager",
@@ -20,6 +20,7 @@ export class AccountManagerComponent implements OnInit {
   emailLock: Boolean = true;
   confirmChanges: Boolean = false;
   invalidForm: Boolean = true;
+  submitted: Boolean = false;
   user: User | null = window.user;
   formDefaults = {
     forename: this.user?.forename,
@@ -29,7 +30,7 @@ export class AccountManagerComponent implements OnInit {
     newPassword: null,
     repeatPassword: null,
   };
-  constructor(private authService: AuthService) {
+  constructor(private userService: UserService) {
     this.resetForms();
   }
 
@@ -142,15 +143,21 @@ export class AccountManagerComponent implements OnInit {
   }
 
   updateDetails() {
-    const update = {
-      forename: this.forename.value,
-      surname: this.surname.value,
-      email: this.email.value ? this.email.value : this.user?.email,
-      upgradeToken: this.upgradeToken.value,
-      newPW: this.newPassword.value,
-      confirmNewPW: this.repeatPassword.value,
-    };
-    console.log(update);
+    this.userService
+      .updateUser(
+        this.forename.value == this.user?.forename ? null : this.forename.value,
+        this.surname.value == this.user?.surname ? null : this.surname.value,
+        this.email.value == this.user?.email ? null : this.email.value,
+        this.upgradeToken.value,
+        this.newPassword.value,
+        this.repeatPassword.value
+      )
+      .subscribe((res) => {
+        if (res) {
+          window.location.reload();
+        }
+      });
+    this.submitted = true;
   }
 
   ngOnInit() {}

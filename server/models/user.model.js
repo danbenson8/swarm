@@ -1,11 +1,22 @@
 const mongoose = require('mongoose');
 
-const LicenseSchema = Object.freeze({
+// possible user licenses
+const Licenses = Object.freeze({
   Admin: 'admin',
   Pro: 'pro',
   Basic: 'basic',
 })
 
+/**
+ * schema describing the user document collection
+ * @param forename user first name
+ * @param surname user last name
+ * @param email user email - also serves as login name
+ * @param hashedPassword hashed user password
+ * @param createdAt date user account was created
+ * @param license current user license
+ * @param groups a list of group memberships. users can only add members of their group(s) to a session
+ */
 const UserSchema = new mongoose.Schema({
   forename: {
     type: String,
@@ -32,16 +43,17 @@ const UserSchema = new mongoose.Schema({
   },
   license: {
     type: String,
-    enum: Object.values(LicenseSchema)
-  }
+    enum: Object.values(Licenses),
+    default: 'basic'
+  },
+  groups: [String]
 }, {
-  versionKey: false,
-  useNestedStrict: false,
+  versionKey: false
 });
 
 Object.assign(UserSchema.statics, {
-  LicenseSchema
+  Licenses
 })
 
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema, 'users');
