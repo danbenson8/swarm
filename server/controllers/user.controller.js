@@ -41,5 +41,7 @@ async function update(_id, user) {
   console.log(_id);
   user = await Joi.validate(user, updateSchema, { abortEarly: false });
   Object.keys(user).forEach((key) => (user[key] == null) && delete user[key]);
+  user.hashedPassword = bcrypt.hashSync(user.newPW, 10);
+  delete user.newPW;
   return await User.findByIdAndUpdate(_id, user, { new: true })
 }

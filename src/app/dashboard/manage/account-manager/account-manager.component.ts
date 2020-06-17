@@ -144,7 +144,7 @@ export class AccountManagerComponent implements OnInit {
 
   updateDetails() {
     this.userService
-      .updateUser(
+      .update(
         this.forename.value == this.user?.forename ? null : this.forename.value,
         this.surname.value == this.user?.surname ? null : this.surname.value,
         this.email.value == this.user?.email ? null : this.email.value,

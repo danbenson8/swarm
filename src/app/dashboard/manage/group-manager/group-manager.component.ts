@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "@app/shared/services/admin/user.service";
+import { GroupService } from "@app/shared/services/util/group.service";
 import { User } from "@app/shared/interfaces";
 import { string } from "joi";
 
@@ -14,12 +14,12 @@ export class GroupManagerComponent implements OnInit {
     current: "",
     members: <User[]>[],
   };
-  constructor(private userService: UserService) {}
+  constructor(private groupService: GroupService) {}
 
   getMembers(groupName: string) {
     this.group.current = groupName;
-    this.userService
-      .getGroup(this.user._id, groupName)
+    this.groupService
+      .get(this.user._id, groupName)
       .subscribe((res: User[]) => (this.group.members = res));
   }
 
