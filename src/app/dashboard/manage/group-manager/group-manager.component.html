@@ -2,62 +2,112 @@
   <mat-card-title class="mat-card-title dashboard-title">
     Group Management
   </mat-card-title>
-  <mat-card-content>
-    <mat-card class="mat-card manage-card">
-      <mat-card-title class="mat-card-title manage-title">
+  <mat-card-content class="manage-grid">
+    <mat-card class="manage-card">
+      <mat-card-title>
         My Groups
       </mat-card-title>
       <mat-card-content>
         <button
           mat-raised-button
-          *ngFor="let group of user.groups"
-          (click)="getMembers(group)"
-          class="large-button"
-          color="primary"
+          class="large-button create-group"
+          (click)="new()"
         >
-          {{ group }}
+          + New Group
         </button>
-        <mat-paginator
-          *ngIf="user.groups.length > 10"
-          [length]="user.groups.length"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 20]"
-        >
-        </mat-paginator>
-      </mat-card-content>
-      <mat-action-row>
-        <button mat-raised-button>
-          New group
-        </button>
-      </mat-action-row>
-    </mat-card>
-    <mat-card class="mat-card manage-card" *ngIf="group.current">
-      <mat-card-title class="mat-card-title manage-title">
-        {{ group.current | titlecase }}
-      </mat-card-title>
-      <mat-card-content>
         <button
           mat-raised-button
-          *ngFor="let user of group.members"
+          *ngFor="let group of groups$ | async"
+          (click)="detail(group)"
           class="large-button"
           color="primary"
         >
-          {{ user.forename | titlecase }} {{ user.surname | titlecase }}
+          {{ group.name }}
         </button>
         <mat-paginator
-          *ngIf="group.members.length > 10"
-          [length]="group.members.length"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 20]"
+          *ngIf="(groups$ | async)?.length > 6"
+          [length]="(groups$ | async)?.length"
+          [pageSize]="6"
         >
         </mat-paginator>
       </mat-card-content>
-      <mat-action-row>
+    </mat-card>
+
+    <mat-card class="manage-card">
+      <mat-card-title *ngIf="createGroup">Create New Group</mat-card-title>
+      <mat-card-title *ngIf="!createGroup">
+        {{ (current$ | async)?.name | titlecase }}
+      </mat-card-title>
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Details">
+            <form class="manage-form" [formGroup]="groupForm">
+              <mat-form-field>
+                <mat-label>Group Name</mat-label>
+                <input
+                  matInput
+                  [placeholder]="(current$ | async)?.name"
+                  formControlName="name"
+                  name="name"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Description</mat-label>
+                <input
+                  matInput
+                  [placeholder]="(current$ | async)?.description"
+                  formControlName="description"
+                  name="description"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Privacy</mat-label>
+                <mat-select formControlName="privacy">
+                  <mat-option
+                    value="private"
+                    selected="group.privacy == 'private' ? true : false"
+                    >Private</mat-option
+                  >
+                  <mat-option
+                    value="public"
+                    selected="group.privacy == 'public' ? true : false"
+                    >Public</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Members">
+            <button
+              mat-raised-button
+              *ngFor="let user of (current$ | async)?.members"
+              class="large-button"
+              color="primary"
+            >
+              {{ user._user.forename | titlecase }}
+            </button>
+            <mat-paginator
+              *ngIf="(current$ | async)?.members.length > 10"
+              [length]="(current$ | async)?.members.length"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 20]"
+            >
+            </mat-paginator>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+      <mat-action-row *ngIf="!createGroup">
         <button mat-raised-button>
           Send invite
         </button>
-        <button mat-raised-button color="warn">
-          Leave
+        <button mat-raised-button color="accent" (click)="leave()">
+          Leave Group
+        </button>
+      </mat-action-row>
+      <mat-action-row *ngIf="createGroup">
+        <button mat-raised-button color="primary" (click)="create()">
+          Create Group
         </button>
       </mat-action-row>
     </mat-card>

@@ -46,7 +46,10 @@ const UserSchema = new mongoose.Schema({
     enum: Object.values(Licenses),
     default: 'basic'
   },
-  groups: [String]
+  groups: [{
+    type: mongoose.Schema.Types.ObjectID,
+    ref: 'Group'
+  }]
 }, {
   versionKey: false
 });

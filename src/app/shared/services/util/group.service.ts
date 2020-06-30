@@ -1,36 +1,56 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { User } from "@app/shared/interfaces";
-import { tap, pluck } from "rxjs/operators";
-
-interface GroupResponse {
-  members: any;
-}
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { User, Group } from "@app/shared/interfaces";
+import { UserService } from "../admin/user.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class GroupService {
-  private group$ = new BehaviorSubject<User[] | null>(null);
+  private userGroup$ = new BehaviorSubject<Group[]>([]);
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.setUserGroup();
+  }
 
-  constructor(private http: HttpClient) {}
+  setUserGroup(): void {
+    const userGroups = window.user?.groups;
+    let userGroup: Group[] = [];
+    for (let group of userGroups!) {
+      this.detail(group).subscribe((group) => {
+        userGroup.push(group);
+      });
+    }
+    this.userGroup$.next(userGroup);
+  }
 
-  // TODO have a group collection listing users per group
-  // then:
-  // _id => user_id
-  // group => group_id
-  get(_id: string, group: string): Observable<any> {
-    return this.http
-      .post<GroupResponse>("/api/util/group", {
-        _id,
-        group,
-      })
-      .pipe(
-        tap(({ members }) => {
-          this.group$.next(members);
-        }),
-        pluck("members")
-      );
+  getUserGroup(): Observable<Group[] | null> {
+    return this.userGroup$.asObservable();
+  }
+
+  detail(group: string): Observable<Group> {
+    return this.http.post<Group>("/api/group/detail", {
+      _id: group,
+    });
+  }
+
+  new(name: string, description: string, privacy: string): Observable<Group> {
+    return this.http.post<Group>("/api/group/new", {
+      name: name,
+      description: description,
+      privacy: privacy,
+    });
+  }
+
+  join(_id: string, _user: string, membership: string): Observable<User> {
+    return this.http.post<User>("api/group/join", {
+      _id: _id,
+      _user: _user,
+      membership: membership,
+    });
+  }
+
+  leave(group: string): Observable<Group> {
+    return this.http.post<Group>("/api/group/leave", { _id: group });
   }
 }
