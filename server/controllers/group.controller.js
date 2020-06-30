@@ -63,22 +63,31 @@ async function leave(body) {
     group_id: Joi.string().required()
   });
   body = await Joi.validate(body, idSchema);
-  i = await User.findByIdAndUpdate(body.user_id, { $pull: { groups: body.group_id } }, { new: true })
-  j = await Group.findByIdAndUpdate(body.group_id, { $pull: { members: { _user: body.user_id } } }, { new: true })
+  user = await User.findByIdAndUpdate(body.user_id, { $pull: { groups: body.group_id } }, { new: true })
+  group = await Group.findByIdAndUpdate(body.group_id, { $pull: { members: { _user: body.user_id } } }, { new: true })
   // Delete group if no members
-  if (j.members.length === 0) {
-    j = Group.findByIdAndDelete(body.group_id)
+  if (group.members.length === 0) {
+    group = Group.findByIdAndDelete(body.group_id)
   }
-  if (j.members !== []) {
+  if (group.members !== []) {
     return 'Group Deleted'
   } else {
     return j
   }
 }
 
+async function search(query) {
+  if (typeof query === 'string') {
+    return await Group.find({ $text: { $search: query } })
+
+  }
+  return null
+}
+
 module.exports = {
-  insert: insert,
-  detail: detail,
-  join: join,
-  leave: leave,
+  insert,
+  detail,
+  leave,
+  search,
+  join,
 }

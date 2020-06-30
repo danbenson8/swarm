@@ -2,8 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { GroupService } from "@app/shared/services/util/group.service";
 import { Group } from "@app/shared/interfaces";
 import { FormGroup, FormControl, AbstractControl } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { AuthService } from "@app/shared/services";
+import { ObserveOnMessage } from "rxjs/internal/operators/observeOn";
+import { liveSearch } from "@app/shared/util/live-search.operator";
 
 @Component({
   selector: "app-group-manager",
@@ -13,6 +15,12 @@ import { AuthService } from "@app/shared/services";
 export class GroupManagerComponent implements OnInit {
   groups$ = new Observable<Group[] | null>();
   current$ = new Observable<Group | null>();
+  groupSearchQuery = new Subject<string>();
+  readonly groupSearchResults$ = this.groupSearchQuery.pipe(
+    liveSearch((query) => {
+      return this.groupService.search(query);
+    })
+  );
   show: Boolean = true;
   confirmLeave: Boolean = false;
   createGroup: Boolean = false;
@@ -41,6 +49,15 @@ export class GroupManagerComponent implements OnInit {
     return this.groupForm.get("privacy")!;
   }
 
+  groupSearchForm = new FormGroup({
+    groupSearch: new FormControl(null),
+  });
+
+  get groupSearch(): AbstractControl {
+    return this.groupSearchForm.get("groupSearch")!;
+  }
+
+  // TODO reload component
   leave() {
     // TODO confirm leave button (grey out card with button in center)
     this.current$.subscribe((group) => {
@@ -69,6 +86,12 @@ export class GroupManagerComponent implements OnInit {
     this.authService.me().subscribe((user) => (window.user = user));
     this.groupService.setUserGroup();
     this.groups$ = this.groupService.getUserGroup();
+  }
+
+  find() {
+    if (this.groupSearch.value) {
+      this.groupSearchQuery.next(this.groupSearch.value);
+    }
   }
 
   ngOnInit() {}

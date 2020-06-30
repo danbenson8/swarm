@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { User, Group } from "@app/shared/interfaces";
-import { UserService } from "../admin/user.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class GroupService {
   private userGroup$ = new BehaviorSubject<Group[]>([]);
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient) {
     this.setUserGroup();
   }
 
@@ -52,5 +51,9 @@ export class GroupService {
 
   leave(group: string): Observable<Group> {
     return this.http.post<Group>("/api/group/leave", { _id: group });
+  }
+
+  search(group: string): Observable<Group[]> {
+    return this.http.post<Group[]>(`/api/group/search/${group}`, {});
   }
 }

@@ -89,6 +89,7 @@ export class AuthService {
     this.tokenStorage.signOut();
     this.setUser(null);
     delete window.user;
+    window.location.reload();
   }
 
   getAuthorizationHeaders() {

@@ -111,5 +111,38 @@
         </button>
       </mat-action-row>
     </mat-card>
+
+    <mat-card class="manage-card">
+      <mat-card-title>Search</mat-card-title>
+      <mat-card-content>
+        <form class="manage-form" [formGroup]="groupSearchForm">
+          <mat-form-field>
+            <mat-label>Find a group</mat-label>
+            <input
+              matInput
+              placeholder="Type something!"
+              formControlName="groupSearch"
+              name="groupSearch"
+              (input)="find()"
+            />
+          </mat-form-field>
+        </form>
+        <button
+          mat-raised-button
+          *ngFor="let group of groupSearchResults$ | async"
+          (click)="detail(group)"
+          class="large-button"
+          color="primary"
+        >
+          {{ group.name }}
+        </button>
+        <mat-paginator
+          *ngIf="(groupSearchResults$ | async)?.length > 6"
+          [length]="(groupSearchResults$ | async)?.length"
+          [pageSize]="6"
+        >
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
   </mat-card-content>
 </mat-card>
